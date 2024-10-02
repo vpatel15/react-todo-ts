@@ -1,0 +1,12 @@
+.todo-task-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.todo-task-list{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
