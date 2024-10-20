@@ -8,9 +8,8 @@ import React from "react";
 const Todo: React.FC = () => {
   const [task, setTask] = useState("");
   const [taskList, setTaskList] = useState<
-    { id: number; label: string }[]
+    { id: number; label: string, checked: boolean }[]
   >([]);
-  const [checkedInputs, setCheckedInputs] = useState<number[]>([]);
 
   const handleTaskChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask(e.target.value);
@@ -19,7 +18,7 @@ const Todo: React.FC = () => {
   const addTask = React.useCallback(() => {
     const newTask = {
       id: Math.floor(Math.random() * 100),
-      checked: true,
+      checked: false,
       label: task,
     };
     setTaskList([...taskList, newTask]);
@@ -30,18 +29,17 @@ const Todo: React.FC = () => {
     setTaskList([...newList]);
   }, [taskList]);
 
-  const toggleCheck = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("toggle: ", e);
+  const toggleCheck = React.useCallback((id: number) => {
+    console.log("toggle: ", id);
 
-    const checkVal = e.target.value as unknown;
-    if (e.target.checked) {
-      setCheckedInputs([...checkedInputs, Number(checkVal) as number]);
-    } else {
-      setCheckedInputs(
-        checkedInputs.filter((item) => item !== Number(checkVal))
-      );
-    }
-  }, [checkedInputs]);
+    const updatedTaskList = taskList.map((task) => {
+      if (id === task.id) {
+        task.checked = !task.checked
+      }
+      return task;
+    })
+    setTaskList(updatedTaskList);
+  }, [taskList]);
 
   const MemoizedList = React.memo(List);
   const MemoizedButton = React.memo(Button);
@@ -64,7 +62,6 @@ const Todo: React.FC = () => {
         taskList={taskList}
         toggleCheck={toggleCheck}
         onDelete={deleteTask}
-        checkedInputs={checkedInputs}
       />
     </div>
   );

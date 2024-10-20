@@ -8,7 +8,7 @@ interface ListItemProps {
   label: string;
   key?: string;
   checked?: boolean;
-  onCheckBoxChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onCheckBoxChange: (id: number) => void;
   onDelete?: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
@@ -21,8 +21,8 @@ const ListItem: React.FC<ListItemProps> = ({
   onDelete,
 }: ListItemProps) => {
   const ariaLabel = { inputProps: { "aria-label": label } };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onCheckBoxChange(e);
+  const handleChange = (id: number) => {
+    onCheckBoxChange(id);
   };
   return (
     <li className="list-item" key={key}>
@@ -31,7 +31,7 @@ const ListItem: React.FC<ListItemProps> = ({
         checked={checked}
         value={id}
         id={id.toString()}
-        onChange={(e) => handleChange(e)}
+        onChange={() => handleChange(id)}
       />
       {checked ? (
         <label htmlFor={id.toString()}>
