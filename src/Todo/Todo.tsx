@@ -51,7 +51,7 @@ const Todo: React.FC = () => {
           type="text"
           name="task"
           value={task}
-          label={"Enter Task Here"}
+          label={"Enter todo here"}
           onChange={handleTaskChange}
         />
         <MemoizedButton variant="contained" onClick={addTask}>
