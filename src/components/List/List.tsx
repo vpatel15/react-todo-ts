@@ -1,8 +1,9 @@
 import React from 'react'
 import ListItem from '../ListItem/ListItem'
+import type { Todo } from '../../schemas/todo';
 
 interface ListProps {
-  taskList: { id: number; label: string; checked: boolean }[];
+  taskList: Todo[];
   toggleCheck: (id: number) => void;
   onDelete: (id: number) => void;
 }

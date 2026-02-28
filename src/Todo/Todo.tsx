@@ -5,23 +5,32 @@ import { useState } from "react";
 import List from "../components/List/List";
 import React from "react";
 
+import { Todo, TodoSchema } from "../schemas/todo";
+
 const Todo: React.FC = () => {
   const [task, setTask] = useState("");
-  const [taskList, setTaskList] = useState<
-    { id: number; label: string, checked: boolean }[]
-  >([]);
+  const [taskList, setTaskList] = useState<Todo[]>([]);
 
   const handleTaskChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask(e.target.value);
   };
 
   const addTask = React.useCallback(() => {
-    const newTask = {
+    const newTask: Todo = {
       id: Math.floor(Math.random() * 100),
       checked: false,
       label: task,
     };
-    setTaskList([...taskList, newTask]);
+
+    // validate newTask against our schema before inserting
+    const parsed = TodoSchema.safeParse(newTask);
+    if (!parsed.success) {
+      // in a real app you might report this to analytics or show UI
+      console.error('invalid todo created', parsed.error);
+      return;
+    }
+
+    setTaskList([...taskList, parsed.data]);
   }, [task, taskList]);
 
   const deleteTask = React.useCallback((id: number) => {

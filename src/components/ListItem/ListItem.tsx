@@ -3,11 +3,10 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import "./ListItem.css";
 
-interface ListItemProps {
-  id: number;
-  label: string;
+import type { Todo } from '../../schemas/todo';
+
+interface ListItemProps extends Pick<Todo, 'id' | 'label' | 'checked'> {
   key?: string;
-  checked?: boolean;
   onCheckBoxChange: (id: number) => void;
   onDelete?: (e: React.MouseEvent<HTMLElement>) => void;
 }
